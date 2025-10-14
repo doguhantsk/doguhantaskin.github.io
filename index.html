@@ -420,6 +420,33 @@
     <h2>Sepetiniz</h2>
     <div id="cart-items"></div>
     <div class="cart-total" id="cart-total">Toplam: 0 TL</div>
+    <div style="text-align:right; margin-top:1rem;">
+      <button id="checkoutBtn" class="add-to-cart" onclick="showPaymentForm()" disabled>Ödeme Yap</button>
+    </div>
+
+    <div id="paymentForm" style="display:none; margin-top:1rem;">
+      <div class="contact-form">
+        <h3>Ödeme Bilgileri</h3>
+        <form onsubmit="processPayment(event)">
+          <label for="cardName">Kart Sahibinin Adı:</label>
+          <input type="text" id="cardName" required>
+
+          <label for="cardNumber">Kart Numarası:</label>
+          <input type="text" id="cardNumber" inputmode="numeric" pattern="[0-9 ]{13,19}" placeholder="xxxx xxxx xxxx xxxx" required>
+
+          <label for="expiry">Son Kullanma (AA/YY):</label>
+          <input type="text" id="expiry" pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/YY" required>
+
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" inputmode="numeric" pattern="\d{3,4}" placeholder="123" required>
+
+          <div style="text-align:right; margin-top:0.5rem;">
+            <button type="submit" class="add-to-cart">Ödemeyi Onayla</button>
+            <button type="button" class="remove-from-cart" onclick="hidePaymentForm()">İptal</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <div id="contact" class="contact-page section">
@@ -509,6 +536,9 @@
       cartTotal.textContent = `Toplam: ${total} TL`;
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
+      // Enable or disable checkout button
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      if (checkoutBtn) checkoutBtn.disabled = totalItems === 0;
     }
 
     function showNotification(type) {
@@ -517,6 +547,35 @@
       setTimeout(() => {
         notification.style.display = 'none';
       }, 2000);
+    }
+
+    function showPaymentForm() {
+      document.getElementById('paymentForm').style.display = 'block';
+      window.scrollTo({ top: document.getElementById('paymentForm').offsetTop - 20, behavior: 'smooth' });
+    }
+
+    function hidePaymentForm() {
+      document.getElementById('paymentForm').style.display = 'none';
+    }
+
+    function processPayment(event) {
+      event.preventDefault();
+      // Simple validation is handled by form patterns; simulate processing
+      const cardName = document.getElementById('cardName').value;
+      // Simulate a loading state
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'İşleniyor...';
+      setTimeout(() => {
+        // On success, clear cart
+        cart = [];
+        updateCart();
+        hidePaymentForm();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Ödemeyi Onayla';
+        showNotification('cart');
+        alert('Ödeme başarılı! Teşekkür ederiz, ' + cardName + '.');
+      }, 1500);
     }
 
     function submitContact(event) {
