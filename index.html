@@ -81,6 +81,49 @@
       text-align: center;
     }
 
+    /* Comments */
+    .comments {
+      text-align: left;
+      margin-top: 1rem;
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+    }
+
+    .comment {
+      background: #fafafa;
+      padding: 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.6rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .comment strong {
+      display: block;
+      color: #333;
+      margin-bottom: 0.2rem;
+    }
+
+    .comment small {
+      color: #666;
+    }
+
+    .comment-form input, .comment-form textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .comment-form button {
+      background-color: #28a745;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
     .product-card img {
       width: 100%;
       border-radius: 10px;
@@ -348,8 +391,8 @@
           <li>5G Desteği</li>
           <li>Android 14</li>
         </ul>
-  <div class="price">12.999 TL</div>
-  <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://i.hizliresim.com/n8yfy16.png')">Sepete Ekle</button>
+  <div class="price">39.999 TL</div>
+  <button class="add-to-cart" onclick="addToCart('TrendPhone X', 39999, 'https://i.hizliresim.com/n8yfy16.png')">Sepete Ekle</button>
       </div>
     </div>
     
@@ -362,20 +405,47 @@
           <h3>TrendPhone X</h3>
           <div class="price">12.999 TL</div>
           <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://i.hizliresim.com/n8yfy16.png')">Sepete Ekle</button>
+          <div class="comments" data-product="TrendPhone X">
+            <h4>Yorumlar</h4>
+            <div class="comments-list"></div>
+            <form class="comment-form" onsubmit="addComment(event, 'TrendPhone X')">
+              <input type="text" name="author" placeholder="Adınız" required>
+              <textarea name="text" rows="2" placeholder="Yorumunuz..." required></textarea>
+              <button type="submit">Yorum Ekle</button>
+            </form>
+          </div>
         </div>
 
         <div class="product-card">
           <img src="https://i.hizliresim.com/jryliww.png" alt="TrendWatch" loading="lazy" width="400" height="400">
           <h3>TrendWatch</h3>
-          <div class="price">4.999 TL</div>
-          <button class="add-to-cart" onclick="addToCart('TrendWatch', 4999, 'https://i.hizliresim.com/jryliww.png')">Sepete Ekle</button>
+          <div class="price">9.999 TL</div>
+          <button class="add-to-cart" onclick="addToCart('TrendWatch', 9999, 'https://i.hizliresim.com/jryliww.png')">Sepete Ekle</button>
+          <div class="comments" data-product="TrendWatch">
+            <h4>Yorumlar</h4>
+            <div class="comments-list"></div>
+            <form class="comment-form" onsubmit="addComment(event, 'TrendWatch')">
+              <input type="text" name="author" placeholder="Adınız" required>
+              <textarea name="text" rows="2" placeholder="Yorumunuz..." required></textarea>
+              <button type="submit">Yorum Ekle</button>
+            </form>
+          </div>
         </div>
 
         <div class="product-card">
           <img src="https://i.hizliresim.com/o790lq5.png" alt="TrendBuds" loading="lazy" width="400" height="400">
           <h3>TrendBuds</h3>
-          <div class="price">2.499 TL</div>
-          <button class="add-to-cart" onclick="addToCart('TrendBuds', 2499, 'https://i.hizliresim.com/o790lq5.png')">Sepete Ekle</button>
+          <div class="price">5.499 TL</div>
+          <button class="add-to-cart" onclick="addToCart('TrendBuds', 5499, 'https://i.hizliresim.com/o790lq5.png')">Sepete Ekle</button>
+          <div class="comments" data-product="TrendBuds">
+            <h4>Yorumlar</h4>
+            <div class="comments-list"></div>
+            <form class="comment-form" onsubmit="addComment(event, 'TrendBuds')">
+              <input type="text" name="author" placeholder="Adınız" required>
+              <textarea name="text" rows="2" placeholder="Yorumunuz..." required></textarea>
+              <button type="submit">Yorum Ekle</button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -577,6 +647,58 @@
         alert('Ödeme başarılı! Teşekkür ederiz, ' + cardName + '.');
       }, 1500);
     }
+
+    // Comments system using localStorage
+    function getComments() {
+      try {
+        return JSON.parse(localStorage.getItem('productComments') || '{}');
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem('productComments', JSON.stringify(comments));
+    }
+
+    function renderComments(product) {
+      const container = document.querySelector(`.comments[data-product="${product}"] .comments-list`);
+      if (!container) return;
+      const comments = getComments()[product] || [
+        { author: 'Ali', text: 'Harika bir cihaz, pil ömrü çok iyi.' },
+        { author: 'Ayşe', text: 'Kargo hızlıydı, paketleme özenliydi.' }
+      ];
+      container.innerHTML = '';
+      comments.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        div.innerHTML = `<strong>${escapeHtml(c.author)}</strong><small>${escapeHtml(c.text)}</small>`;
+        container.appendChild(div);
+      });
+    }
+
+    function addComment(event, product) {
+      event.preventDefault();
+      const form = event.target;
+      const author = form.author.value.trim();
+      const text = form.text.value.trim();
+      if (!author || !text) return;
+      const comments = getComments();
+      if (!comments[product]) comments[product] = [];
+      comments[product].unshift({ author, text });
+      saveComments(comments);
+      renderComments(product);
+      form.reset();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Render comments for all products on load
+    document.addEventListener('DOMContentLoaded', () => {
+      ['TrendPhone X', 'TrendWatch', 'TrendBuds'].forEach(renderComments);
+    });
 
     function submitContact(event) {
       event.preventDefault();
