@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ürün Tanıtım Sitesi</title>
+  <title>DS Store - Ürün Tanıtım Sitesi</title>
   <style>
     * {
       margin: 0;
@@ -18,7 +18,7 @@
     }
 
     header {
-      background-color: #1a73e8;
+      background-color: #1a73e8; /* DS Store mavi tonu olabilir */
       color: white;
       padding: 1rem;
       text-align: center;
@@ -44,19 +44,60 @@
       color: white;
       text-decoration: none;
       font-weight: bold;
+      position: relative;
     }
 
     nav ul li a:hover {
       color: #1a73e8;
     }
 
-    .product-container {
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -15px;
+      background-color: #dc3545;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.8rem;
+    }
+
+    .product-container, .products-page {
       max-width: 1200px;
       margin: 2rem auto;
       padding: 1rem;
       display: flex;
       gap: 2rem;
       flex-wrap: wrap;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 30%;
+      min-width: 250px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+      height: 200px; /* Kart görsellerine sabit yükseklik */
+      object-fit: cover; /* Görseli bozmadan sığdırma */
+    }
+
+    .product-card h3 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+    }
+
+    .product-card .price {
+      font-size: 1.2rem;
+      color: #1a73e8;
+      font-weight: bold;
+      margin-bottom: 1rem;
     }
 
     .product-image {
@@ -143,6 +184,8 @@
 
     .cart-item img {
       width: 60px;
+      height: 60px;
+      object-fit: cover;
       border-radius: 5px;
     }
 
@@ -157,6 +200,25 @@
 
     .cart-item-details p {
       color: #1a73e8;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quantity-controls button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .quantity-controls button:hover {
+      background-color: #1557b0;
     }
 
     .remove-from-cart {
@@ -179,6 +241,57 @@
       margin-top: 1rem;
     }
 
+    .contact-page {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      display: none;
+    }
+
+    .contact-page h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-form {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .contact-form button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .contact-form button:hover {
+      background-color: #1557b0;
+    }
+
+    .section {
+      display: none;
+    }
+
     footer {
       background-color: #333;
       color: white;
@@ -188,9 +301,13 @@
     }
 
     @media (max-width: 768px) {
-      .product-container, .cart-page {
+      .product-container, .products-page, .cart-page, .contact-page {
         flex-direction: column;
         align-items: center;
+      }
+
+      .product-card {
+        width: 100%;
       }
 
       .cart-item {
@@ -206,14 +323,15 @@
 </head>
 <body>
   <header>
-    <h1>TechTrend Mağazası</h1>
-  </header>
+    <h1>DS Store</h1> </header>
 
   <nav>
     <ul>
       <li><a href="#" onclick="showSection('home')">Ana Sayfa</a></li>
       <li><a href="#" onclick="showSection('products')">Ürünler</a></li>
-      <li><a href="#" onclick="showSection('cart')">Sepet</a></li>
+      <li><a href="#" onclick="showSection('cart')">
+        Sepet <span id="cartCount" class="cart-count">0</span>
+      </a></li>
       <li><a href="#" onclick="showSection('contact')">İletişim</a></li>
     </ul>
   </nav>
@@ -221,7 +339,7 @@
   <div id="home" class="section">
     <div class="product-container">
       <div class="product-image">
-        <img src="https://via.placeholder.com/400x400?text=Akıllı+Telefon" alt="Akıllı Telefon">
+        <img src="https://storage.googleapis.com/hax_1740925232759885854/image_generation_content/1" alt="DS Store Akıllı Telefon Görünümü">
       </div>
       <div class="product-details">
         <h2>TrendPhone X</h2>
@@ -234,7 +352,31 @@
           <li>Android 14</li>
         </ul>
         <div class="price">12.999 TL</div>
-        <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://via.placeholder.com/400x400?text=Akıllı+Telefon')">Sepete Ekle</button>
+        <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://storage.googleapis.com/hax_1740925232759885854/image_generation_content/1')">Sepete Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="products" class="products-page section">
+    <h2>Ürünlerimiz</h2>
+    <div class="product-container">
+      <div class="product-card">
+        <img src="https://storage.googleapis.com/hax_1740925232759885854/image_generation_content/1" alt="TrendPhone X">
+        <h3>TrendPhone X</h3>
+        <div class="price">12.999 TL</div>
+        <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://storage.googleapis.com/hax_1740925232759885854/image_generation_content/1')">Sepete Ekle</button>
+      </div>
+      <div class="product-card">
+        <img src="https://via.placeholder.com/200x200?text=TrendWatch" alt="TrendWatch">
+        <h3>TrendWatch</h3>
+        <div class="price">4.999 TL</div>
+        <button class="add-to-cart" onclick="addToCart('TrendWatch', 4999, 'https://via.placeholder.com/200x200?text=TrendWatch')">Sepete Ekle</button>
+      </div>
+      <div class="product-card">
+        <img src="https://via.placeholder.com/200x200?text=TrendBuds" alt="TrendBuds">
+        <h3>TrendBuds</h3>
+        <div class="price">2.499 TL</div>
+        <button class="add-to-cart" onclick="addToCart('TrendBuds', 2499, 'https://via.placeholder.com/200x200?text=TrendBuds')">Sepete Ekle</button>
       </div>
     </div>
   </div>
@@ -245,21 +387,52 @@
     <div class="cart-total" id="cart-total">Toplam: 0 TL</div>
   </div>
 
+  <div id="contact" class="contact-page section">
+    <h2>Bize Ulaşın</h2>
+    <div class="contact-form">
+      <form onsubmit="submitContact(event)">
+        <label for="name">Adınız:</label>
+        <input type="text" id="name" required>
+        <label for="email">E-posta:</label>
+        <input type="email" id="email" required>
+        <label for="message">Mesajınız:</label>
+        <textarea id="message" rows="5" required></textarea>
+        <button type="submit">Gönder</button>
+      </form>
+    </div>
+  </div>
+
   <div class="cart-notification" id="cartNotification">
     Ürün sepete eklendi!
   </div>
 
+  <div class="notification" id="contactNotification" style="display: none;">
+    Mesajınız gönderildi!
+  </div>
+
   <footer>
-    <p>&copy; 2025 TechTrend. Tüm hakları saklıdır.</p>
-  </footer>
+    <p>&copy; 2025 DS Store. Tüm hakları saklıdır.</p> </footer>
 
   <script>
     let cart = [];
 
     function addToCart(productName, price, image) {
-      cart.push({ name: productName, price: price, image: image });
+      const existingItem = cart.find(item => item.name === productName);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: productName, price: price, image: image, quantity: 1 });
+      }
       updateCart();
-      showNotification();
+      showNotification('cart');
+    }
+
+    function updateQuantity(index, change) {
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCart();
     }
 
     function removeFromCart(index) {
@@ -270,6 +443,7 @@
     function updateCart() {
       const cartItems = document.getElementById('cart-items');
       const cartTotal = document.getElementById('cart-total');
+      const cartCount = document.getElementById('cartCount');
       cartItems.innerHTML = '';
 
       if (cart.length === 0) {
@@ -282,7 +456,12 @@
             <img src="${item.image}" alt="${item.name}">
             <div class="cart-item-details">
               <h3>${item.name}</h3>
-              <p>${item.price} TL</p>
+              <p>${item.price} TL x ${item.quantity} = ${item.price * item.quantity} TL</p>
+              <div class="quantity-controls">
+                <button onclick="updateQuantity(${index}, -1)">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="updateQuantity(${index}, 1)">+</button>
+              </div>
             </div>
             <button class="remove-from-cart" onclick="removeFromCart(${index})">Sil</button>
           `;
@@ -290,16 +469,28 @@
         });
       }
 
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
       cartTotal.textContent = `Toplam: ${total} TL`;
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalItems;
     }
 
-    function showNotification() {
-      const notification = document.getElementById('cartNotification');
+    function showNotification(type) {
+      const notification = document.getElementById(type === 'cart' ? 'cartNotification' : 'contactNotification');
       notification.style.display = 'block';
       setTimeout(() => {
         notification.style.display = 'none';
       }, 2000);
+    }
+
+    function submitContact(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      console.log('Form verileri:', { name, email, message });
+      event.target.reset();
+      showNotification('contact');
     }
 
     function showSection(sectionId) {
