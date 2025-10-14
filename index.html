@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ürün Tanıtım Sitesi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #1a73e8;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    nav {
+      background-color: #333;
+      padding: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      color: #1a73e8;
+    }
+
+    .product-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .product-image {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .product-image img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-details {
+      flex: 1;
+      min-width: 300px;
+      padding: 1rem;
+    }
+
+    .product-details h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .product-details p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      color: #1a73e8;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .add-to-cart {
+      background-color: #1a73e8;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .add-to-cart:hover {
+      background-color: #1557b0;
+    }
+
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 1rem;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .cart-page {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      display: none;
+    }
+
+    .cart-page h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: white;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item img {
+      width: 60px;
+      border-radius: 5px;
+    }
+
+    .cart-item-details {
+      flex: 1;
+      margin-left: 1rem;
+    }
+
+    .cart-item-details h3 {
+      font-size: 1.2rem;
+    }
+
+    .cart-item-details p {
+      color: #1a73e8;
+    }
+
+    .remove-from-cart {
+      background-color: #dc3545;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .remove-from-cart:hover {
+      background-color: #b02a37;
+    }
+
+    .cart-total {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 1rem;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-container, .cart-page {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cart-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .cart-item img {
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TechTrend Mağazası</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#" onclick="showSection('home')">Ana Sayfa</a></li>
+      <li><a href="#" onclick="showSection('products')">Ürünler</a></li>
+      <li><a href="#" onclick="showSection('cart')">Sepet</a></li>
+      <li><a href="#" onclick="showSection('contact')">İletişim</a></li>
+    </ul>
+  </nav>
+
+  <div id="home" class="section">
+    <div class="product-container">
+      <div class="product-image">
+        <img src="https://via.placeholder.com/400x400?text=Akıllı+Telefon" alt="Akıllı Telefon">
+      </div>
+      <div class="product-details">
+        <h2>TrendPhone X</h2>
+        <p>En yeni TrendPhone X, güçlü işlemcisi, 6.5 inç AMOLED ekranı ve 48 MP kamerasıyla dikkat çekiyor. Günlük kullanım için mükemmel bir seçim!</p>
+        <p><strong>Özellikler:</strong></p>
+        <ul>
+          <li>6 GB RAM, 128 GB Depolama</li>
+          <li>4000 mAh Batarya</li>
+          <li>5G Desteği</li>
+          <li>Android 14</li>
+        </ul>
+        <div class="price">12.999 TL</div>
+        <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://via.placeholder.com/400x400?text=Akıllı+Telefon')">Sepete Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cart" class="cart-page section">
+    <h2>Sepetiniz</h2>
+    <div id="cart-items"></div>
+    <div class="cart-total" id="cart-total">Toplam: 0 TL</div>
+  </div>
+
+  <div class="cart-notification" id="cartNotification">
+    Ürün sepete eklendi!
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TechTrend. Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script>
+    let cart = [];
+
+    function addToCart(productName, price, image) {
+      cart.push({ name: productName, price: price, image: image });
+      updateCart();
+      showNotification();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      cartItems.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Sepetiniz boş.</p>';
+      } else {
+        cart.forEach((item, index) => {
+          const itemElement = document.createElement('div');
+          itemElement.className = 'cart-item';
+          itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+              <h3>${item.name}</h3>
+              <p>${item.price} TL</p>
+            </div>
+            <button class="remove-from-cart" onclick="removeFromCart(${index})">Sil</button>
+          `;
+          cartItems.appendChild(itemElement);
+        });
+      }
+
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      cartTotal.textContent = `Toplam: ${total} TL`;
+    }
+
+    function showNotification() {
+      const notification = document.getElementById('cartNotification');
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 2000);
+    }
+
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.style.display = 'none';
+      });
+      document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // İlk yüklemede sadece ana sayfayı göster
+    showSection('home');
+  </script>
+</body>
+</html>
