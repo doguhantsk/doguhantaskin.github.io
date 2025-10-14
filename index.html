@@ -177,6 +177,60 @@
       cursor: pointer;
     }
 
+    /* Product details modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal {
+      background: #fff;
+      max-width: 900px;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: flex;
+      gap: 1rem;
+      overflow: hidden;
+    }
+
+    .modal .modal-image {
+      flex: 1;
+      min-width: 300px;
+      max-width: 420px;
+    }
+
+    .modal .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .modal .modal-body {
+      flex: 1;
+      padding: 1.25rem;
+    }
+
+    .modal .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: #666;
+      position: absolute;
+      right: 20px;
+      top: 18px;
+    }
+
+    .product-card { cursor: pointer; }
+
     .product-card img {
       width: 100%;
       border-radius: 10px;
@@ -526,20 +580,20 @@
       <div class="product-card">
   <img src="https://i.hizliresim.com/n8yfy16.png" alt="TrendPhone X" loading="lazy" width="400" height="400">
         <h3>TrendPhone X</h3>
-        <div class="price">12.999 TL</div>
-  <button class="add-to-cart" onclick="addToCart('TrendPhone X', 12999, 'https://i.hizliresim.com/n8yfy16.png')">Sepete Ekle</button>
+        <div class="price">39.999 TL</div>
+  <button class="add-to-cart" onclick="addToCart('TrendPhone X', 39999, 'https://i.hizliresim.com/n8yfy16.png')">Sepete Ekle</button>
       </div>
       <div class="product-card">
   <img src="https://i.hizliresim.com/jryliww.png" alt="TrendWatch" loading="lazy" width="400" height="400">
         <h3>TrendWatch</h3>
-        <div class="price">4.999 TL</div>
-  <button class="add-to-cart" onclick="addToCart('TrendWatch', 4999, 'https://i.hizliresim.com/jryliww.png')">Sepete Ekle</button>
+        <div class="price">9.999 TL</div>
+  <button class="add-to-cart" onclick="addToCart('TrendWatch', 9999, 'https://i.hizliresim.com/jryliww.png')">Sepete Ekle</button>
       </div>
       <div class="product-card">
   <img src="https://i.hizliresim.com/o790lq5.png" alt="TrendBuds" loading="lazy" width="400" height="400">
         <h3>TrendBuds</h3>
-        <div class="price">2.499 TL</div>
-  <button class="add-to-cart" onclick="addToCart('TrendBuds', 2499, 'https://i.hizliresim.com/o790lq5.png')">Sepete Ekle</button>
+        <div class="price">5.499 TL</div>
+  <button class="add-to-cart" onclick="addToCart('TrendBuds', 5499, 'https://i.hizliresim.com/o790lq5.png')">Sepete Ekle</button>
       </div>
     </div>
   </div>
@@ -756,7 +810,82 @@
     // Render comments for all products on load
     document.addEventListener('DOMContentLoaded', () => {
       ['TrendPhone X', 'TrendWatch', 'TrendBuds'].forEach(renderComments);
+      // Attach click handler to product cards to show details
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Ignore clicks on buttons inside the card
+          if (e.target.closest('button')) return;
+          const title = card.querySelector('h3')?.textContent?.trim();
+          if (title) openProductModal(title);
+        });
+      });
     });
+
+    // Product data for modal
+    const PRODUCT_DATA = {
+      'TrendPhone X': {
+        image: 'https://i.hizliresim.com/n8yfy16.png',
+        price: '12.999 TL',
+        desc: 'En yeni TrendPhone X, güçlü işlemcisi, 6.5 inç AMOLED ekranı ve 48 MP kamerasıyla dikkat çekiyor.',
+        features: ['6 GB RAM', '128 GB Depolama', '4000 mAh Batarya', '5G Desteği', 'Android 14']
+      },
+      'TrendWatch': {
+        image: 'https://i.hizliresim.com/jryliww.png',
+        price: '4.999 TL',
+        desc: 'TrendWatch ile sağlık takibi, uzun pil ömrü ve şık tasarım bir arada.',
+        features: ['Kalp atış hızı sensörü', 'Uyku takibi', 'Bluetooth 5.0']
+      },
+      'TrendBuds': {
+        image: 'https://i.hizliresim.com/o790lq5.png',
+        price: '2.499 TL',
+        desc: 'TrendBuds, yüksek ses kalitesi ve konforlu tasarımıyla müzik keyfinizi arttırır.',
+        features: ['Aktif gürültü engelleme', '20 saat çalma süresi', 'Bluetooth 5.2']
+      }
+    };
+
+    function openProductModal(title) {
+      const data = PRODUCT_DATA[title];
+      if (!data) return;
+      // Create modal if doesn't exist
+      let overlay = document.getElementById('modalOverlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'modalOverlay';
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML = `
+          <div class="modal" role="dialog" aria-modal="true" aria-label="Ürün Detayı">
+            <div class="modal-image"><img src="" alt=""></div>
+            <div class="modal-body">
+              <button class="close-btn" aria-label="Kapat">✕</button>
+              <h2 class="modal-title"></h2>
+              <p class="modal-desc"></p>
+              <ul class="modal-features"></ul>
+              <div class="modal-price" style="margin-top:1rem; font-weight:700; color:#1a73e8;"></div>
+              <div style="margin-top:1rem;"><button class="add-to-cart">Sepete Ekle</button></div>
+            </div>
+          </div>`;
+        document.body.appendChild(overlay);
+        overlay.querySelector('.close-btn').addEventListener('click', closeModal);
+        overlay.addEventListener('click', (ev) => { if (ev.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') closeModal(); });
+      }
+      overlay.style.display = 'flex';
+      const img = overlay.querySelector('.modal-image img');
+      img.src = data.image;
+      img.alt = title;
+      overlay.querySelector('.modal-title').textContent = title;
+      overlay.querySelector('.modal-desc').textContent = data.desc;
+      const feat = overlay.querySelector('.modal-features');
+      feat.innerHTML = '';
+      data.features.forEach(f => { const li = document.createElement('li'); li.textContent = f; feat.appendChild(li); });
+      overlay.querySelector('.modal-price').textContent = data.price;
+      overlay.querySelector('.modal .add-to-cart').onclick = () => { addToCart(title, parseInt(data.price.replace(/\D/g,'')), data.image); closeModal(); };
+    }
+
+    function closeModal() {
+      const overlay = document.getElementById('modalOverlay');
+      if (overlay) overlay.style.display = 'none';
+    }
 
     function submitContact(event) {
       event.preventDefault();
