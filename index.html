@@ -115,6 +115,29 @@
     /* Emoji spacing */
     .nav-emoji { margin-right: 0.5rem; font-size:1.05rem; }
 
+    /* Responsive minimal nav */
+    .main-nav {
+      background: linear-gradient(90deg, #0b63d6, #1a73e8);
+      color: #fff;
+      padding: 0.6rem 1rem;
+    }
+
+    .main-nav .nav-inner { display:flex; align-items:center; justify-content:space-between; }
+    .brand-mini { font-weight:800; letter-spacing:2px; }
+    .nav-toggle { background:transparent; border:none; color:#fff; font-size:1.25rem; cursor:pointer; }
+
+    .nav-links { display:none; }
+    .nav-links ul { list-style:none; padding:0.6rem 0; margin:0; display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; }
+    .nav-link { background:transparent; border:none; color:#fff; padding:0.5rem 0.85rem; border-radius:6px; font-weight:700; cursor:pointer; }
+    .nav-link:hover { background: rgba(255,255,255,0.06); }
+
+    @media(min-width: 720px) {
+      .nav-toggle { display:none; }
+      .nav-links { display:block; }
+      .nav-links ul { gap:2rem; }
+      .nav-links { display:block !important; }
+    }
+
     .cart-count {
       position: absolute;
       top: -10px;
@@ -571,13 +594,19 @@
     </div>
   </header>
 
-  <nav>
-    <ul>
-      <li><a href="#" onclick="showSection('home')"><span class="nav-emoji">🏠</span>Ana Sayfa</a></li>
-      <li><a href="#" onclick="showSection('products')"><span class="nav-emoji">🛍️</span>Ürünler</a></li>
-      <li><a href="#" onclick="showSection('cart')"><span class="nav-emoji">🛒</span>Sepet <span id="cartCount" class="cart-count">0</span></a></li>
-      <li><a href="#" onclick="showSection('contact')"><span class="nav-emoji">✉️</span>İletişim</a></li>
-    </ul>
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <div class="brand-mini">DS STORE</div>
+      <button class="nav-toggle" aria-expanded="false" aria-label="Menüyü aç" onclick="toggleNav()">☰</button>
+    </div>
+    <div class="nav-links" id="navLinks" aria-hidden="true">
+      <ul>
+        <li><button type="button" class="nav-link" onclick="showSection('home'); closeNav()"><span class="nav-emoji">🏠</span>Ana Sayfa</button></li>
+        <li><button type="button" class="nav-link" onclick="showSection('products'); closeNav()"><span class="nav-emoji">🛍️</span>Ürünler</button></li>
+        <li><button type="button" class="nav-link" onclick="showSection('cart'); closeNav()"><span class="nav-emoji">🛒</span>Sepet <span id="cartCount" class="cart-count">0</span></button></li>
+        <li><button type="button" class="nav-link" onclick="showSection('contact'); closeNav()"><span class="nav-emoji">✉️</span>İletişim</button></li>
+      </ul>
+    </div>
   </nav>
 
   <div id="home" class="section">
@@ -1150,6 +1179,24 @@
         section.style.display = 'none';
       });
       document.getElementById(sectionId).style.display = 'block';
+    }
+
+    function toggleNav() {
+      const links = document.getElementById('navLinks');
+      const btn = document.querySelector('.nav-toggle');
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      links.style.display = expanded ? 'none' : 'block';
+      links.setAttribute('aria-hidden', String(expanded));
+    }
+
+    function closeNav() {
+      const links = document.getElementById('navLinks');
+      const btn = document.querySelector('.nav-toggle');
+      if (!links || !btn) return;
+      btn.setAttribute('aria-expanded', 'false');
+      links.style.display = 'none';
+      links.setAttribute('aria-hidden', 'true');
     }
 
     // İlk yüklemede sadece ana sayfayı göster
