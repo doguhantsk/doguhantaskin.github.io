@@ -351,7 +351,6 @@
     }
 
     .cart-bump { animation: bump 420ms ease; }
-    }
 
     .cart-page {
       max-width: 1200px;
@@ -749,7 +748,7 @@
         </div>
         <div class="checkout-actions">
           <button id="checkoutBtn" class="add-to-cart" onclick="showPaymentForm()" disabled>Ödeme Yap</button>
-          <button class="btn-secondary" onclick="clearCart()">Sepeti Boşalt</button>
+          <button id="clearCartBtn" type="button" class="btn-secondary" onclick="clearCart()">Sepeti Boşalt</button>
         </div>
       </aside>
     </div>
@@ -833,6 +832,18 @@
       updateCart();
     }
 
+    function clearCart() {
+      // Defensive: ensure cart exists
+      if (!Array.isArray(cart)) cart = [];
+      if (cart.length === 0) {
+        showNotification('info', { title: 'Sepet zaten boş', message: 'Sepetinizde zaten ürün yok.' });
+        return;
+      }
+      cart = [];
+      updateCart();
+      showNotification('info', { title: 'Sepet temizlendi', message: 'Sepetiniz boşaltıldı.' });
+    }
+
     function updateCart() {
       const cartItemsContainer = document.getElementById('cart-items');
       const cartTotalEl = document.getElementById('cart-total');
@@ -884,6 +895,15 @@
         setTimeout(() => { notification.style.display = 'none'; }, 2000);
         return;
       }
+      if (type === 'info') {
+        const notification = document.getElementById('contactNotification');
+        if (notification) {
+          notification.textContent = meta?.message || meta?.title || 'Bilgi';
+          notification.style.display = 'block';
+          setTimeout(() => { notification.style.display = 'none'; }, 2000);
+        }
+        return;
+      }
       // cart toast
       const container = document.getElementById('cartNotification');
       container.innerHTML = '';
@@ -899,7 +919,12 @@
       requestAnimationFrame(() => { toast.classList.add('show'); });
       // bump cart count
       const cartSpan = document.getElementById('cartCount');
-      cartSpan.classList.remove('cart-bump');
+      if (cartSpan) {
+        cartSpan.classList.remove('cart-bump');
+        // force reflow
+        void cartSpan.offsetWidth;
+        cartSpan.classList.add('cart-bump');
+      }
       // force reflow
       void cartSpan.offsetWidth;
       cartSpan.classList.add('cart-bump');
