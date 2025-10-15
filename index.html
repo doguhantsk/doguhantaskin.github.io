@@ -568,10 +568,53 @@
       <div style="width:100%; height:400px; border-radius:10px; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
         <iframe
           src="https://maps.google.com/maps?q=Ankara,%20Turkey&z=12&output=embed"
-          width="100%" height="100%" style="border:0;"
+          width="100%" height="100%" style="border:0;" title="Ankara Haritası"
           allowfullscreen="" loading="lazy"></iframe>
       </div>
     </section>
+
+    <!-- Müşteri Hizmetleri -->
+    <section class="customer-service" style="max-width:1200px; margin:2rem auto; padding:1rem;">
+      <h2 style="text-align:center;">Müşteri Hizmetleri</h2>
+      <div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start; justify-content:space-between;">
+        <div style="flex:1; min-width:260px;">
+          <h3>İletişim Bilgileri</h3>
+          <p><strong>Telefon:</strong> <a href="tel:+903123456789">(0312) 345 67 89</a></p>
+          <p><strong>E-posta:</strong> <a href="mailto:destek@dsstore.example">destek@dsstore.example</a></p>
+          <p><strong>Çalışma Saatleri:</strong><br>Hafta içi: 09:00 - 18:00<br>Hafta sonu: 10:00 - 16:00</p>
+          <p><button class="add-to-cart" onclick="openChat()">Canlı Sohbet Başlat</button></p>
+        </div>
+        <div style="flex:1; min-width:320px;">
+          <h3>Mesaj Gönder</h3>
+          <form onsubmit="submitSupportForm(event)" class="contact-form">
+            <label for="cs-name">Adınız</label>
+            <input type="text" id="cs-name" required>
+            <label for="cs-email">E-posta</label>
+            <input type="email" id="cs-email" required>
+            <label for="cs-subject">Konunuz</label>
+            <input type="text" id="cs-subject" required>
+            <label for="cs-message">Mesajınız</label>
+            <textarea id="cs-message" rows="4" required></textarea>
+            <div style="text-align:right;"><button type="submit" class="add-to-cart">Gönder</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chat widget (simulated) -->
+    <div id="chatWidget" style="position:fixed; right:20px; bottom:20px; width:320px; max-width:calc(100% - 40px); display:none; z-index:1200;">
+      <div style="background:#fff; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.2); overflow:hidden;">
+        <div style="background:#1a73e8; color:#fff; padding:0.6rem 0.9rem; display:flex; justify-content:space-between; align-items:center;">
+          <strong>Canlı Destek</strong>
+          <button onclick="closeChat()" style="background:transparent;border:none;color:#fff;cursor:pointer;font-size:1.1rem;">✕</button>
+        </div>
+        <div id="chatBox" style="padding:0.8rem; height:220px; overflow:auto; font-size:0.95rem; background:#f7f9fc;"></div>
+        <div style="padding:0.6rem; display:flex; gap:0.5rem;">
+          <input id="chatInput" placeholder="Mesaj yazın..." style="flex:1;padding:0.5rem;border:1px solid #ddd;border-radius:6px;">
+          <button onclick="sendChatMessage()" class="add-to-cart">Gönder</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="products" class="products-page section">
@@ -825,7 +868,7 @@
     const PRODUCT_DATA = {
       'TrendPhone X': {
         image: 'https://i.hizliresim.com/n8yfy16.png',
-        price: '12.999 TL',
+        price: '39.999 TL',
         desc: 'En yeni TrendPhone X, güçlü işlemcisi, 6.5 inç AMOLED ekranı ve 48 MP kamerasıyla dikkat çekiyor.',
         features: ['6 GB RAM', '128 GB Depolama', '4000 mAh Batarya', '5G Desteği', 'Android 14']
       },
@@ -885,6 +928,51 @@
     function closeModal() {
       const overlay = document.getElementById('modalOverlay');
       if (overlay) overlay.style.display = 'none';
+    }
+
+    // Customer support handlers
+    function submitSupportForm(event) {
+      event.preventDefault();
+      const name = document.getElementById('cs-name').value;
+      const email = document.getElementById('cs-email').value;
+      const subject = document.getElementById('cs-subject').value;
+      const message = document.getElementById('cs-message').value;
+      console.log('Support request:', { name, email, subject, message });
+      showNotification('contact');
+      event.target.reset();
+    }
+
+    function openChat() {
+      document.getElementById('chatWidget').style.display = 'block';
+      const box = document.getElementById('chatBox');
+      box.innerHTML = '<div style="color:#666;">Merhaba! Size nasıl yardımcı olabilirim?</div>';
+    }
+
+    function closeChat() {
+      document.getElementById('chatWidget').style.display = 'none';
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const box = document.getElementById('chatBox');
+      const userMsg = document.createElement('div');
+      userMsg.style.textAlign = 'right';
+      userMsg.style.marginBottom = '0.4rem';
+      userMsg.textContent = text;
+      box.appendChild(userMsg);
+      input.value = '';
+      box.scrollTop = box.scrollHeight;
+      // Simulate agent reply
+      setTimeout(() => {
+        const reply = document.createElement('div');
+        reply.style.textAlign = 'left';
+        reply.style.marginBottom = '0.6rem';
+        reply.textContent = 'En kısa sürede yardımcı olacağız. (Simüle mesaj)';
+        box.appendChild(reply);
+        box.scrollTop = box.scrollHeight;
+      }, 800);
     }
 
     function submitContact(event) {
