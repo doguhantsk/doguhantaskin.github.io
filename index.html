@@ -96,13 +96,24 @@
     nav ul li a {
       color: white;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 800;
       position: relative;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      display: inline-block;
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms;
     }
 
     nav ul li a:hover {
-      color: #1a73e8;
+      color: #fff;
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
     }
+
+    /* Emoji spacing */
+    .nav-emoji { margin-right: 0.5rem; font-size:1.05rem; }
 
     .cart-count {
       position: absolute;
@@ -514,12 +525,10 @@
 
   <nav>
     <ul>
-      <li><a href="#" onclick="showSection('home')">Ana Sayfa</a></li>
-      <li><a href="#" onclick="showSection('products')">Ürünler</a></li>
-      <li><a href="#" onclick="showSection('cart')">
-        Sepet <span id="cartCount" class="cart-count">0</span>
-      </a></li>
-      <li><a href="#" onclick="showSection('contact')">İletişim</a></li>
+      <li><a href="#" onclick="showSection('home')"><span class="nav-emoji">🏠</span>Ana Sayfa</a></li>
+      <li><a href="#" onclick="showSection('products')"><span class="nav-emoji">🛍️</span>Ürünler</a></li>
+      <li><a href="#" onclick="showSection('cart')"><span class="nav-emoji">🛒</span>Sepet <span id="cartCount" class="cart-count">0</span></a></li>
+      <li><a href="#" onclick="showSection('contact')"><span class="nav-emoji">✉️</span>İletişim</a></li>
     </ul>
   </nav>
 
