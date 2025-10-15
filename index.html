@@ -4,17 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DS STORE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
     }
 
     body {
       background-color: #f4f4f4;
       color: #333;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 2rem;
+      align-items: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,250,252,0.9));
+      border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(13,38,76,0.06);
+      border: 1px solid rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    .hero-content h1 {
+      font-size: 2.1rem;
+      line-height: 1.05;
+      margin-bottom: 0.6rem;
+      color: #0b1730;
+    }
+
+    .hero-content p.lead {
+      color: #334155;
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+    }
+
+    .hero-ctas { display:flex; gap:0.75rem; flex-wrap:wrap; }
+    .btn-primary { background:#0b1730; color:#fff; padding:0.8rem 1.1rem; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
+    .btn-ghost { background:transparent; color:#0b1730; padding:0.7rem 1rem; border-radius:8px; border:1px solid rgba(11,23,48,0.08); cursor:pointer; }
+
+    .hero-image img { width:100%; height:100%; object-fit:cover; border-radius:10px; box-shadow:0 8px 30px rgba(11,23,48,0.06); }
+
+    /* Product grid improvements */
+    .product-container { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; }
+    .product-card {
+      padding:1rem;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+      border-radius:12px;
+      border:1px solid rgba(11,23,48,0.04);
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow:0 14px 40px rgba(11,23,48,0.08); }
+    .product-card img { border-radius:8px; }
+    .product-card h3 { font-size:1.05rem; margin:0.6rem 0 0.4rem 0; color:#0b1730; }
+    .product-card .price { color:#0b1730; font-weight:800; }
+
+    @media(max-width: 820px) {
+      .hero { grid-template-columns: 1fr; padding:1rem; }
+      .hero-image { order:-1; }
+      .hero-content h1 { font-size:1.6rem; }
     }
 
     header {
@@ -113,7 +168,7 @@
     }
 
     /* Emoji spacing */
-    .nav-emoji { margin-right: 0.5rem; font-size:1.05rem; }
+  .nav-emoji { margin-right: 0.5rem; font-size:1.05rem; }
 
     /* Responsive minimal nav */
     .main-nav {
@@ -128,8 +183,11 @@
 
     .nav-links { display:none; }
     .nav-links ul { list-style:none; padding:0.6rem 0; margin:0; display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; }
-    .nav-link { background:transparent; border:none; color:#fff; padding:0.5rem 0.85rem; border-radius:6px; font-weight:700; cursor:pointer; }
-    .nav-link:hover { background: rgba(255,255,255,0.06); }
+  .nav-link { background:transparent; border:none; color:#000; padding:0.5rem 0.85rem; border-radius:6px; font-weight:700; cursor:pointer; }
+  .nav-link:hover { background: rgba(0,0,0,0.06); }
+
+  /* Ensure emoji in nav also use black */
+  .main-nav .nav-emoji { color: #000; }
 
     @media(min-width: 720px) {
       .nav-toggle { display:none; }
@@ -610,25 +668,20 @@
   </nav>
 
   <div id="home" class="section">
-    <div class="product-container">
-      <div class="product-image">
-  <img src="https://i.hizliresim.com/n8yfy16.png" alt="TrendPhone X" loading="lazy" width="600" height="600">
+    <div class="hero">
+      <div class="hero-content">
+        <h1>Trend teknoloji, zarif tasarım — DS STORE</h1>
+        <p class="lead">En yeni telefon, saat ve kulaklık modelleriyle günlük hayatınızı kolaylaştırın. Seçkin seçkimiz yüksek kalite ve şık tasarım sunar.</p>
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="showSection('products')">Tüm Ürünler</button>
+          <button class="btn-ghost" onclick="showSection('contact')">Bizimle İletişime Geçin</button>
+        </div>
       </div>
-      <div class="product-details">
-        <h2>TrendPhone X</h2>
-        <p>En yeni TrendPhone X, güçlü işlemcisi, 6.5 inç AMOLED ekranı ve 48 MP kamerasıyla dikkat çekiyor. Günlük kullanım için mükemmel bir seçim!</p>
-        <p><strong>Özellikler:</strong></p>
-        <ul>
-          <li>6 GB RAM, 128 GB Depolama</li>
-          <li>4000 mAh Batarya</li>
-          <li>5G Desteği</li>
-          <li>Android 14</li>
-        </ul>
-  <div class="price">39.999 TL</div>
-  <button class="add-to-cart" onclick="addToCart('TrendPhone X', 39999, 'https://i.hizliresim.com/n8yfy16.png')">Sepete Ekle</button>
+      <div class="hero-image">
+        <img src="https://i.hizliresim.com/n8yfy16.png" alt="TrendPhone X" loading="lazy" width="420" height="420">
       </div>
     </div>
-    
+
     <!-- Tüm ürünler - ana sayfada görünür olacak şekilde tekrar listeleniyor -->
     <section class="products-on-home">
       <h2 style="text-align:center; margin-top:2rem;">Ürünlerimiz</h2>
