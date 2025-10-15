@@ -172,7 +172,7 @@
 
     /* Responsive minimal nav */
     .main-nav {
-      background: linear-gradient(90deg, #0b63d6, #1a73e8);
+      background: #000; /* black background requested */
       color: #fff;
       padding: 0.6rem 1rem;
     }
@@ -183,11 +183,13 @@
 
     .nav-links { display:none; }
     .nav-links ul { list-style:none; padding:0.6rem 0; margin:0; display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; }
-  .nav-link { background:transparent; border:none; color:#000; padding:0.5rem 0.85rem; border-radius:6px; font-weight:700; cursor:pointer; }
-  .nav-link:hover { background: rgba(0,0,0,0.06); }
+  .nav-link { background:transparent; border:none; color:#fff; padding:0.6rem 1rem; border-radius:6px; font-weight:800; cursor:pointer; font-size:1.05rem; }
+  .nav-link:hover { background: rgba(255,255,255,0.06); }
 
-  /* Ensure emoji in nav also use black */
-  .main-nav .nav-emoji { color: #000; }
+  /* Ensure emoji in nav also use white */
+  .main-nav .nav-emoji { color: #fff; }
+
+  .brand-mini { color: #fff; }
 
     @media(min-width: 720px) {
       .nav-toggle { display:none; }
