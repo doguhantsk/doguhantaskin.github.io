@@ -54,7 +54,11 @@
     .hero-image img { width:100%; height:100%; object-fit:cover; border-radius:10px; box-shadow:0 8px 30px rgba(11,23,48,0.06); }
 
     /* Product grid improvements */
-    .product-container { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; }
+  .product-container { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; align-items:start; }
+
+  /* Cart & contact spacing tweaks */
+  .cart-page .cart-content { gap:1.5rem; }
+  .contact-page .contact-form { max-width:800px; margin:0 auto; }
     .product-card {
       background-color: white;
       border-radius: 10px;
@@ -211,21 +215,16 @@
       font-size: 0.8rem;
     }
 
-    .product-container, .products-page {
+    .products-page {
       max-width: 1200px;
       margin: 2rem auto;
       padding: 1rem;
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
     }
 
     .product-card {
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      width: 30%;
-      min-width: 250px;
       padding: 1rem;
       text-align: center;
     }
@@ -798,7 +797,6 @@
   <div id="products" class="products-page section">
     <h2>Ürünlerimiz</h2>
       <div class="product-container">
-        <div class="section-card" style="max-width:1200px; margin:2rem auto; padding:1rem;">
           <div class="product-card">
             <img src="https://i.hizliresim.com/n8yfy16.png" alt="TrendPhone X" loading="lazy" width="400" height="400">
             <h3>TrendPhone X</h3>
